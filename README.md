@@ -119,9 +119,10 @@ http://127.0.0.1:5000/
 
 ## 🖼️ Screenshots
 
-![alt text](image.png)
+<img width="1352" height="730" alt="image" src="https://github.com/user-attachments/assets/2f2a7783-0593-4892-a08b-b049abe0c919" />
 
-![alt text](image-1.png)
+<img width="738" height="1600" alt="image" src="https://github.com/user-attachments/assets/532ead08-8121-4331-95a4-605f755bcd2f" />
+
 
 ---
 
