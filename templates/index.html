@@ -273,17 +273,40 @@
                                             candidato.percentual || 0
                                         );
 
+                                    const numero =
+                                        String(
+                                            candidato.numero || ""
+                                        );
+
+                                    const identificacao =
+                                        numero === "13"
+                                            ? `
+                                                <img
+                                                    src="/static/img/candidato-13.jpg"
+                                                    class="candidato-foto candidato-13"
+                                                    alt="Foto de ${candidato.nome}"
+                                                >
+                                            `
+                                            : numero === "22"
+                                                ? `
+                                                    <img
+                                                        src="/static/img/candidato-22.jpg"
+                                                        class="candidato-foto candidato-22"
+                                                        alt="Foto de ${candidato.nome}"
+                                                    >
+                                                `
+                                                : `
+                                                    <div class="candidato-numero">
+                                                        ${candidato.numero || ""}
+                                                    </div>
+                                                `;
                                     return `
 
                                         <div class="candidato-card">
 
                                             <div class="candidato-top">
 
-                                                <div class="candidato-numero">
-
-                                                    ${candidato.numero || ""}
-
-                                                </div>
+                                                ${identificacao}
 
                                                 <div class="candidato-nome">
 
@@ -355,7 +378,7 @@
 
 
         carregarResultados();
-
+        
 
         setInterval(
             carregarResultados,
