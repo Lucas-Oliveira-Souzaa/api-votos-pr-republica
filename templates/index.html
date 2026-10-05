@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Apuração Presidencial 2026</title>
+        
+        <link
+            rel="icon"
+            type="image/svg+xml"
+            href="{{ url_for('static', filename='favicon.svg') }}"
+        >
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}?v=3"
+    >
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="header">
+
+            <div class="flag">
+               
+            </div>
+
+            <div>
+                <h1>APURAÇÃO PRESIDENCIAL 2026</h1>
+                <p>PRESIDENTE DA REPÚBLICA</p>
+            </div>
+
+        </header>
+
+
+        <div class="status-card">
+
+            <div class="status-indicator">
+
+                <span class="status-dot"></span>
+
+                <span id="status">
+                    CONECTANDO AO TSE...
+                </span>
+
+            </div>
+
+            <div id="ultima-atualizacao">
+                Aguardando atualização...
+            </div>
+
+        </div>
+
+
+        <section class="apuracao-card">
+
+            <div class="section-title">
+                <span>📊</span>
+                <h2>APURAÇÃO NACIONAL</h2>
+            </div>
+
+            <div class="apuracao-percentual">
+
+                <span id="percentual-apuracao">
+                    0,00%
+                </span>
+
+            </div>
+
+            <div class="progress-container">
+
+                <div
+                    id="barra-apuracao"
+                    class="progress-bar"
+                    style="width: 0%;"
+                ></div>
+
+            </div>
+
+            <div class="secoes">
+
+                <span>
+                    Seções apuradas:
+                </span>
+
+                <strong id="secoes-apuradas">
+                    0
+                </strong>
+
+                <span>
+                    /
+                </span>
+
+                <strong id="secoes-total">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <section class="candidatos-section">
+
+            <div class="section-title">
+
+                <span>🗳️</span>
+
+                <h2>
+                    CANDIDATOS À PRESIDÊNCIA
+                </h2>
+
+            </div>
+
+
+            <div
+                id="candidatos"
+                class="candidatos-container"
+            >
+
+                <div class="aguardando">
+
+                    <div class="spinner"></div>
+
+                    <p>
+                        Aguardando dados oficiais do TSE...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            <div>
+                🇧🇷 Dados oficiais do Tribunal Superior Eleitoral
+            </div>
+
+            <div>
+                🔄 Atualização automática a cada 60 segundos
+            </div>
+
+        </footer>
+
+    </div>
+
+
+    <script>
+
+        function formatarNumero(numero) {
+
+            return Number(numero || 0)
+                .toLocaleString("pt-BR");
+
+        }
+
+
+        function formatarPercentual(valor) {
+
+            return Number(valor || 0)
+                .toLocaleString(
+                    "pt-BR",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                ) + "%";
+
+        }
+
+
+        async function carregarResultados() {
+
+            try {
+
+                const resposta =
+                    await fetch("/api/resultados");
+
+                const dados =
+                    await resposta.json();
+
+
+                document.getElementById("status")
+                    .textContent =
+                    dados.status === "online"
+                        ? "TSE CONECTADO"
+                        : "AGUARDANDO DADOS";
+
+
+                const apuracao =
+                    dados.apuracao || {};
+
+
+                const percentual =
+                    Number(
+                        apuracao.percentual || 0
+                    );
+
+
+                document.getElementById(
+                    "percentual-apuracao"
+                ).textContent =
+                    formatarPercentual(percentual);
+
+
+                document.getElementById(
+                    "barra-apuracao"
+                ).style.width =
+                    Math.min(percentual, 100) + "%";
+
+
+                document.getElementById(
+                    "secoes-apuradas"
+                ).textContent =
+                    formatarNumero(
+                        apuracao.apuradas
+                    );
+
+
+                document.getElementById(
+                    "secoes-total"
+                ).textContent =
+                    formatarNumero(
+                        apuracao.total
+                    );
+
+
+                const container =
+                    document.getElementById(
+                        "candidatos"
+                    );
+
+
+                if (
+                    !dados.candidatos ||
+                    dados.candidatos.length === 0
+                ) {
+
+                    container.innerHTML = `
+
+                        <div class="aguardando">
+
+                            <div class="spinner"></div>
+
+                            <p>
+                                Aguardando dados oficiais do TSE...
+                            </p>
+
+                        </div>
+
+                    `;
+
+                } else {
+
+                    container.innerHTML =
+                        dados.candidatos
+                            .map(
+                                (candidato) => {
+
+                                    const percentual =
+                                        Number(
+                                            candidato.percentual || 0
+                                        );
+
+                                    return `
+
+                                        <div class="candidato-card">
+
+                                            <div class="candidato-top">
+
+                                                <div class="candidato-numero">
+
+                                                    ${candidato.numero || ""}
+
+                                                </div>
+
+                                                <div class="candidato-nome">
+
+                                                    <h3>
+                                                        ${candidato.nome}
+                                                    </h3>
+
+                                                    <span>
+                                                        ${formatarNumero(candidato.votos)}
+                                                        votos
+                                                    </span>
+
+                                                </div>
+
+                                                <div class="candidato-percentual">
+
+                                                    ${formatarPercentual(percentual)}
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="candidate-progress">
+
+                                                <div
+                                                    class="candidate-progress-bar"
+                                                    style="width: ${Math.min(percentual, 100)}%;"
+                                                ></div>
+
+                                            </div>
+
+                                        </div>
+
+                                    `;
+
+                                }
+                            )
+                            .join("");
+
+                }
+
+
+                const agora =
+                    new Date();
+
+                document.getElementById(
+                    "ultima-atualizacao"
+                ).textContent =
+                    "Última atualização: " +
+                    agora.toLocaleTimeString(
+                        "pt-BR"
+                    );
+
+            }
+
+            catch (erro) {
+
+                console.error(erro);
+
+                document.getElementById(
+                    "status"
+                ).textContent =
+                    "ERRO DE CONEXÃO";
+
+            }
+
+        }
+
+
+        carregarResultados();
+
+
+        setInterval(
+            carregarResultados,
+            60000
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Fundo verde -->
+  <rect width="100" height="100" rx="12" fill="#009c3b"/>
+
+  <!-- Losango amarelo -->
+  <polygon points="50,12 91,50 50,88 9,50" fill="#ffdf00"/>
+
+  <!-- Círculo azul -->
+  <circle cx="50" cy="50" r="22" fill="#002776"/>
+
+  <!-- Faixa branca -->
+  <path d="M29 43 Q50 34 71 43 L71 49 Q50 40 29 49 Z" fill="#fff"/>
+
+  <!-- Estrelas estilizadas -->
+  <g fill="#fff">
+    <circle cx="39" cy="52" r="1.2"/>
+    <circle cx="45" cy="45" r="1.1"/>
+    <circle cx="51" cy="42" r="1.2"/>
+    <circle cx="57" cy="46" r="1.1"/>
+    <circle cx="63" cy="52" r="1.2"/>
+    <circle cx="48" cy="57" r="1"/>
+    <circle cx="56" cy="57" r="1"/>
+  </g>
+</svg>
