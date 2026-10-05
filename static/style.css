@@ -590,3 +590,59 @@ footer {
 .candidato-22 {
     object-position: center center;
 }
+/* ============================================================
+   DESTAQUE DO LÍDER
+   ============================================================ */
+
+.candidato-lider {
+    background: #f8fbfd;
+
+    border: 1px solid #b8d4e2;
+
+    border-left: 4px solid #1976a8;
+
+    border-radius: 10px;
+
+    padding: 20px 16px;
+
+    box-shadow:
+        0 3px 12px rgba(25, 118, 168, 0.08);
+}
+
+.candidato-lider::before {
+    content: " 1º COLOCADO";
+
+    display: inline-block;
+
+    margin-bottom: 12px;
+
+    padding: 5px 9px;
+
+    background: #eef5f9;
+
+    border: 1px solid #dbe8ef;
+
+    border-radius: 20px;
+
+    color: #1976a8;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.status-atualizacao {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+#proxima-atualizacao {
+    color: #90a4ae;
+
+    font-size: 11px;
+}

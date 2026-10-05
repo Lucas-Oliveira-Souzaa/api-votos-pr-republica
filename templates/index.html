@@ -53,9 +53,17 @@
 
             </div>
 
-            <div id="ultima-atualizacao">
-                Aguardando atualização...
-            </div>
+            <div class="status-atualizacao">
+
+    <div id="ultima-atualizacao">
+        Aguardando atualização...
+    </div>
+
+    <div id="proxima-atualizacao">
+        Próxima atualização: --s
+    </div>
+
+</div>
 
         </div>
 
@@ -178,7 +186,24 @@
                 ) + "%";
 
         }
+        let segundosRestantes = 60;
 
+function atualizarContador() {
+
+    document.getElementById(
+        "proxima-atualizacao"
+    ).textContent =
+        "Próxima atualização: " +
+        segundosRestantes +
+        "s";
+
+    segundosRestantes--;
+
+    if (segundosRestantes < 0) {
+        segundosRestantes = 60;
+    }
+
+}
 
         async function carregarResultados() {
 
@@ -263,11 +288,19 @@
 
                 } else {
 
-                    container.innerHTML =
-                        dados.candidatos
-                            .map(
-                                (candidato) => {
+                            const lider =
+                                dados.candidatos.reduce(
+                                    (maior, candidato) =>
+                                        Number(candidato.percentual || 0) >
+                                        Number(maior.percentual || 0)
+                                            ? candidato
+                                            : maior
+                                );
 
+                            container.innerHTML =
+                                dados.candidatos
+                                    .map(
+                                        (candidato) => {
                                     const percentual =
                                         Number(
                                             candidato.percentual || 0
@@ -277,6 +310,9 @@
                                         String(
                                             candidato.numero || ""
                                         );
+                                     const ehLider =
+                                        String(candidato.numero) ===
+                                        String(lider.numero);   
 
                                     const identificacao =
                                         numero === "13"
@@ -302,7 +338,7 @@
                                                 `;
                                     return `
 
-                                        <div class="candidato-card">
+                                        <div class="candidato-card ${ehLider ? "candidato-lider" : ""}">
 
                                             <div class="candidato-top">
 
@@ -383,6 +419,12 @@
         setInterval(
             carregarResultados,
             60000
+        );
+        atualizarContador();
+
+        setInterval(
+            atualizarContador,
+            1000
         );
 
     </script>
