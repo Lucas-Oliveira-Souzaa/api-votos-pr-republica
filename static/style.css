@@ -47,57 +47,73 @@ body {
 
 .header {
     display: flex;
-
     align-items: center;
-    
     gap: 20px;
-
     padding: 28px;
 
-    background: #ffffff;
+    /* Fundo clean: branco com um leve toque cinza-azulado para dar profundidade */
+     background: linear-gradient(135deg, #95ff95 0%, #fdff83 100%);
 
+    /* Retorna à sua borda leve original para layouts claros */
     border: 1px solid #e1e6ea;
-
     border-radius: 14px;
 
-    box-shadow:
-        0 4px 18px rgba(30, 50, 70, 0.06);
+    /* Sombra leve e suave */
+    box-shadow: 0 4px 18px rgba(30, 50, 70, 0.06);
+    
+    /* Linha inferior estilizada com o verde oficial da bandeira */
+    border-bottom : 4px solid #302681; 
 }
 
 .flag {
     font-size: 46px;
-
     line-height: 1;
 }
 
 .header h1 {
+    display: inline-block;
+    margin: 0;
     font-size: 26px;
-
-    font-weight: 700;
-
-    color: #263238;
-
+    font-weight: 800;
     letter-spacing: 0.5px;
+    
+    /* Efeito moderno: o título principal ganha o gradiente Verde -> Azul do Brasil */
+    background: linear-gradient(135deg, #009c3b 0%, #002147 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .header p {
     margin-top: 7px;
-
-    color: #607d8b;
-
+    margin-bottom: 0;
     font-size: 13px;
-
     font-weight: 600;
-
     letter-spacing: 2px;
+    color: #302681; 
+    
+    /* Garante que o texto e o badge fiquem perfeitamente alinhados na mesma linha */
+    display: flex;
+    align-items: center;
 }
+
 .turno {
-    margin-left: 8px;
-    font-size: 26px;
-    font-weight: 700;
+    /* Espaçamento empurrando o texto "PRESIDENTE DA REPÚBLICA" para a direita */
+    margin-right: 12px; 
+    
+    font-size: 13px;
+    font-weight: 800;
     letter-spacing: 1px;
-    color: #1976a8;
+    display: inline-block;
+    
+    background-color: #ffdf00;
+    color: #302681;
+    padding: 3px 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(255, 223, 0, 0.3);
 }
+
+
+
 
 /* ============================================================
    STATUS
@@ -547,14 +563,29 @@ footer {
     }
 
     .header h1 {
-        font-size: 19px;
+        font-size: 15px;
     }
 
     .header p {
-        font-size: 10px;
+        font-size: 8px;
 
         letter-spacing: 1.5px;
     }
+
+    .turno {
+    /* Espaçamento empurrando o texto "PRESIDENTE DA REPÚBLICA" para a direita */
+    margin-right: 12px;     
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    display: inline-block;
+    
+    background-color: #ffdf00;
+    
+    padding: 4px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(255, 223, 0, 0.3);
+}
 
     .status-card {
         align-items: flex-start;
