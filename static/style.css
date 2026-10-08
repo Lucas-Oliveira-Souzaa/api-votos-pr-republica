@@ -78,7 +78,7 @@ body {
     letter-spacing: 0.5px;
     
     /* Efeito moderno: o título principal ganha o gradiente Verde -> Azul do Brasil */
-    background: linear-gradient(135deg, #009c3b 0%, #002147 100%);
+    background: linear-gradient(135deg, #002147 0%, #009c3b 100%); 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -243,7 +243,7 @@ body {
 
     height: 100%;
 
-    background: #5c9fbd;
+    background: #2aa876;
 
     border-radius: 10px;
 
