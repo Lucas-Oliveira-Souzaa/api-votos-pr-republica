@@ -34,8 +34,10 @@
             </div>
 
             <div>
-                <h1>APURAÇÃO PRESIDENCIAL 2026</h1>
+                <h1>APURAÇÃO PRESIDENCIAL</h1>
+                <span class="turno">2º TURNO</span>
                 <p>PRESIDENTE DA REPÚBLICA</p>
+                
             </div>
 
         </header>
@@ -58,9 +60,12 @@
     <div id="ultima-atualizacao">
         Aguardando atualização...
     </div>
-
     <div id="proxima-atualizacao">
         Próxima atualização: --s
+    </div>
+
+    <div class="progresso-atualizacao">
+        <div id="barra-atualizacao"></div>
     </div>
 
 </div>
@@ -162,272 +167,314 @@
         </footer>
 
     </div>
+<script>
 
+    function formatarNumero(numero) {
 
-    <script>
+        return Number(numero || 0)
+            .toLocaleString("pt-BR");
 
-        function formatarNumero(numero) {
-
-            return Number(numero || 0)
-                .toLocaleString("pt-BR");
-
-        }
-
-
-        function formatarPercentual(valor) {
-
-            return Number(valor || 0)
-                .toLocaleString(
-                    "pt-BR",
-                    {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }
-                ) + "%";
-
-        }
-        let segundosRestantes = 60;
-
-function atualizarContador() {
-
-    document.getElementById(
-        "proxima-atualizacao"
-    ).textContent =
-        "Próxima atualização: " +
-        segundosRestantes +
-        "s";
-
-    segundosRestantes--;
-
-    if (segundosRestantes < 0) {
-        segundosRestantes = 60;
     }
 
-}
 
-        async function carregarResultados() {
+    function formatarPercentual(valor) {
 
-            try {
+        return Number(valor || 0)
+            .toLocaleString(
+                "pt-BR",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            ) + "%";
 
-                const resposta =
-                    await fetch("/api/resultados");
-
-                const dados =
-                    await resposta.json();
-
-
-                document.getElementById("status")
-                    .textContent =
-                    dados.status === "online"
-                        ? "TSE CONECTADO"
-                        : "AGUARDANDO DADOS";
+    }
 
 
-                const apuracao =
-                    dados.apuracao || {};
+    let segundosRestantes = 60;
+    function atualizarContador() {
+
+        document.getElementById(
+            "proxima-atualizacao"
+        ).textContent =
+            "Próxima atualização: " +
+            segundosRestantes +
+            "s";
 
 
-                const percentual =
-                    Number(
-                        apuracao.percentual || 0
-                    );
+        const barra =
+            document.getElementById(
+                "barra-atualizacao"
+            );
 
 
+        const percentual =
+            (segundosRestantes / 60) * 100;
+
+
+        barra.style.width =
+            percentual + "%";
+
+
+        segundosRestantes--;
+
+
+        if (segundosRestantes < 0) {
+
+            segundosRestantes = 60;
+
+        }
+
+    }
+
+
+    async function carregarResultados() {
+
+        try {
+
+            const resposta =
+                await fetch("/api/resultados");
+
+            const dados =
+                await resposta.json();
+
+
+            document.getElementById("status")
+                .textContent =
+                dados.status === "online"
+                    ? "TSE CONECTADO"
+                    : "AGUARDANDO DADOS";
+
+
+            const apuracao =
+                dados.apuracao || {};
+
+
+            const percentual =
+                Number(
+                    apuracao.percentual || 0
+                );
+
+
+            document.getElementById(
+                "percentual-apuracao"
+            ).textContent =
+                formatarPercentual(percentual);
+
+
+            document.getElementById(
+                "barra-apuracao"
+            ).style.width =
+                Math.min(percentual, 100) + "%";
+
+
+            document.getElementById(
+                "secoes-apuradas"
+            ).textContent =
+                formatarNumero(
+                    apuracao.apuradas
+                );
+
+
+            document.getElementById(
+                "secoes-total"
+            ).textContent =
+                formatarNumero(
+                    apuracao.total
+                );
+
+
+            const container =
                 document.getElementById(
-                    "percentual-apuracao"
-                ).textContent =
-                    formatarPercentual(percentual);
+                    "candidatos"
+                );
 
 
-                document.getElementById(
-                    "barra-apuracao"
-                ).style.width =
-                    Math.min(percentual, 100) + "%";
+            if (
+                !dados.candidatos ||
+                dados.candidatos.length === 0
+            ) {
+
+                container.innerHTML = `
+
+                    <div class="aguardando">
+
+                        <div class="spinner"></div>
+
+                        <p>
+                            Aguardando dados oficiais do TSE...
+                        </p>
+
+                    </div>
+
+                `;
+
+            } else {
+
+                /* ============================================================
+                   ORDENA CANDIDATOS DO MAIOR PARA O MENOR PERCENTUAL
+                   ============================================================ */
+
+                dados.candidatos.sort(
+                    (a, b) =>
+                        Number(b.percentual || 0) -
+                        Number(a.percentual || 0)
+                );
 
 
-                document.getElementById(
-                    "secoes-apuradas"
-                ).textContent =
-                    formatarNumero(
-                        apuracao.apuradas
-                    );
+                /* ============================================================
+                   PRIMEIRO CANDIDATO = MAIS VOTADO
+                   ============================================================ */
+
+                const lider =
+                    dados.candidatos[0];
 
 
-                document.getElementById(
-                    "secoes-total"
-                ).textContent =
-                    formatarNumero(
-                        apuracao.total
-                    );
+                container.innerHTML =
+                    dados.candidatos
+                        .map(
+                            (candidato) => {
+
+                                const percentual =
+                                    Number(
+                                        candidato.percentual || 0
+                                    );
 
 
-                const container =
-                    document.getElementById(
-                        "candidatos"
-                    );
+                                const numero =
+                                    String(
+                                        candidato.numero || ""
+                                    );
 
 
-                if (
-                    !dados.candidatos ||
-                    dados.candidatos.length === 0
-                ) {
+                                const ehLider =
+                                    String(candidato.numero) ===
+                                    String(lider.numero);
 
-                    container.innerHTML = `
 
-                        <div class="aguardando">
-
-                            <div class="spinner"></div>
-
-                            <p>
-                                Aguardando dados oficiais do TSE...
-                            </p>
-
-                        </div>
-
-                    `;
-
-                } else {
-
-                            const lider =
-                                dados.candidatos.reduce(
-                                    (maior, candidato) =>
-                                        Number(candidato.percentual || 0) >
-                                        Number(maior.percentual || 0)
-                                            ? candidato
-                                            : maior
-                                );
-
-                            container.innerHTML =
-                                dados.candidatos
-                                    .map(
-                                        (candidato) => {
-                                    const percentual =
-                                        Number(
-                                            candidato.percentual || 0
-                                        );
-
-                                    const numero =
-                                        String(
-                                            candidato.numero || ""
-                                        );
-                                     const ehLider =
-                                        String(candidato.numero) ===
-                                        String(lider.numero);   
-
-                                    const identificacao =
-                                        numero === "13"
+                                const identificacao =
+                                    numero === "13"
+                                        ? `
+                                            <img
+                                                src="/static/img/candidato-13.jpg"
+                                                class="candidato-foto candidato-13"
+                                                alt="Foto de ${candidato.nome}"
+                                            >
+                                        `
+                                        : numero === "22"
                                             ? `
                                                 <img
-                                                    src="/static/img/candidato-13.jpg"
-                                                    class="candidato-foto candidato-13"
+                                                    src="/static/img/candidato-22.jpg"
+                                                    class="candidato-foto candidato-22"
                                                     alt="Foto de ${candidato.nome}"
                                                 >
                                             `
-                                            : numero === "22"
-                                                ? `
-                                                    <img
-                                                        src="/static/img/candidato-22.jpg"
-                                                        class="candidato-foto candidato-22"
-                                                        alt="Foto de ${candidato.nome}"
-                                                    >
-                                                `
-                                                : `
-                                                    <div class="candidato-numero">
-                                                        ${candidato.numero || ""}
-                                                    </div>
-                                                `;
-                                    return `
-
-                                        <div class="candidato-card ${ehLider ? "candidato-lider" : ""}">
-
-                                            <div class="candidato-top">
-
-                                                ${identificacao}
-
-                                                <div class="candidato-nome">
-
-                                                    <h3>
-                                                        ${candidato.nome}
-                                                    </h3>
-
-                                                    <span>
-                                                        ${formatarNumero(candidato.votos)}
-                                                        votos
-                                                    </span>
-
+                                            : `
+                                                <div class="candidato-numero">
+                                                    ${candidato.numero || ""}
                                                 </div>
+                                            `;
 
-                                                <div class="candidato-percentual">
 
-                                                    ${formatarPercentual(percentual)}
+                                return `
 
-                                                </div>
+                                    <div class="candidato-card ${ehLider ? "candidato-lider" : ""}">
+
+                                        <div class="candidato-top">
+
+                                            ${identificacao}
+
+                                            <div class="candidato-nome">
+
+                                                <h3>
+                                                    ${candidato.nome}
+                                                </h3>
+
+                                                <span>
+                                                    ${formatarNumero(candidato.votos)}
+                                                    votos
+                                                </span>
 
                                             </div>
 
+                                            <div class="candidato-percentual">
 
-                                            <div class="candidate-progress">
-
-                                                <div
-                                                    class="candidate-progress-bar"
-                                                    style="width: ${Math.min(percentual, 100)}%;"
-                                                ></div>
+                                                ${formatarPercentual(percentual)}
 
                                             </div>
 
                                         </div>
 
-                                    `;
 
-                                }
-                            )
-                            .join("");
+                                        <div class="candidate-progress">
 
-                }
+                                            <div
+                                                class="candidate-progress-bar"
+                                                style="width: ${Math.min(percentual, 100)}%;"
+                                            ></div>
 
+                                        </div>
 
-                const agora =
-                    new Date();
+                                    </div>
 
-                document.getElementById(
-                    "ultima-atualizacao"
-                ).textContent =
-                    "Última atualização: " +
-                    agora.toLocaleTimeString(
-                        "pt-BR"
-                    );
+                                `;
+
+                            }
+                        )
+                        .join("");
 
             }
 
-            catch (erro) {
 
-                console.error(erro);
+            const agora =
+                new Date();
 
-                document.getElementById(
-                    "status"
-                ).textContent =
-                    "ERRO DE CONEXÃO";
 
-            }
+            document.getElementById(
+                "ultima-atualizacao"
+            ).textContent =
+                "Última atualização: " +
+                agora.toLocaleTimeString(
+                    "pt-BR"
+                );
 
         }
 
 
-        carregarResultados();
-        
+        catch (erro) {
 
-        setInterval(
-            carregarResultados,
-            60000
-        );
-        atualizarContador();
+            console.error(erro);
 
-        setInterval(
-            atualizarContador,
-            1000
-        );
+            document.getElementById(
+                "status"
+            ).textContent =
+                "ERRO DE CONEXÃO";
 
-    </script>
+        }
+
+    }
+
+
+    carregarResultados();
+
+
+    setInterval(
+        carregarResultados,
+        60000
+    );
+
+
+    atualizarContador();
+
+
+    setInterval(
+        atualizarContador,
+        1000
+    );
+
+</script>
+
+
 
 </body>
 

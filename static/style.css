@@ -49,7 +49,7 @@ body {
     display: flex;
 
     align-items: center;
-
+    
     gap: 20px;
 
     padding: 28px;
@@ -91,7 +91,13 @@ body {
 
     letter-spacing: 2px;
 }
-
+.turno {
+    margin-left: 8px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #1976a8;
+}
 
 /* ============================================================
    STATUS
@@ -130,16 +136,6 @@ body {
     gap: 8px;
 }
 
-.status-dot {
-    width: 8px;
-    height: 8px;
-
-    display: inline-block;
-
-    border-radius: 50%;
-
-    background: #27ae72;
-}
 
 .online {
     color: #21865a;
@@ -207,6 +203,35 @@ body {
     font-weight: 700;
 
     letter-spacing: 1.2px;
+}
+/* ============================================================
+   PROGRESSO DA ATUALIZAÇÃO
+   ============================================================ */
+
+.progresso-atualizacao {
+    width: 100%;
+
+    height: 3px;
+
+    margin-top: 7px;
+
+    overflow: hidden;
+
+    background: #edf1f3;
+
+    border-radius: 10px;
+}
+
+#barra-atualizacao {
+    width: 100%;
+
+    height: 100%;
+
+    background: #5c9fbd;
+
+    border-radius: 10px;
+
+    transition: width 1s linear;
 }
 
 
@@ -297,15 +322,28 @@ body {
 }
 
 .candidato-card {
-    padding: 20px 0;
+    background: #f8fbfd;
 
-    border-bottom: 1px solid #edf0f2;
+    border: 1px solid #b8d4e2;
+
+    border-left: 4px solid #1976a8;
+
+    border-radius: 10px;
+
+    padding: 20px 16px;
+
+    margin-bottom: 12px;
+
+    box-shadow:
+        0 3px 12px rgba(25, 118, 168, 0.08);
 }
 
 .candidato-card:last-child {
-    border-bottom: none;
+    margin-bottom: 0;
 }
-
+.candidato-card:last-child {
+    margin-bottom: 0;
+}
 
 /* ============================================================
    INFORMAÇÕES DOS CANDIDATOS
@@ -593,24 +631,19 @@ footer {
 /* ============================================================
    DESTAQUE DO LÍDER
    ============================================================ */
+/* ============================================================
+   DESTAQUE DO LÍDER
+   ============================================================ */
 
 .candidato-lider {
-    background: #f8fbfd;
-
-    border: 1px solid #b8d4e2;
-
-    border-left: 4px solid #1976a8;
-
-    border-radius: 10px;
-
-    padding: 20px 16px;
+    border-color: #1976a8;
 
     box-shadow:
-        0 3px 12px rgba(25, 118, 168, 0.08);
+        0 4px 16px rgba(25, 118, 168, 0.14);
 }
 
 .candidato-lider::before {
-    content: " 1º COLOCADO";
+    content: "🏆 LÍDER DA APURAÇÃO 2026";
 
     display: inline-block;
 
@@ -633,6 +666,7 @@ footer {
     letter-spacing: 1px;
 }
 
+
 .status-atualizacao {
     display: flex;
 
@@ -645,4 +679,98 @@ footer {
     color: #90a4ae;
 
     font-size: 11px;
+}
+/* ============================================================
+   STATUS TSE
+   ============================================================ */
+
+#status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+#status::before {
+    content: "";
+
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
+
+    background: #2ecc71;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 0 rgba(46, 204, 113, 0.6);
+
+    animation:
+        pulsar-status 1.8s infinite;
+}
+
+@keyframes pulsar-status {
+
+    0% {
+        opacity: 1;
+
+        box-shadow:
+            0 0 0 0 rgba(46, 204, 113, 0.6);
+    }
+
+    50% {
+        opacity: 0.55;
+
+        box-shadow:
+            0 0 0 5px rgba(46, 204, 113, 0);
+    }
+
+    100% {
+        opacity: 1;
+
+        box-shadow:
+            0 0 0 0 rgba(46, 204, 113, 0);
+    }
+
+}
+/* ============================================================
+   AJUSTE MOBILE — STATUS
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .status-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+
+    .status-indicator {
+        width: 100%;
+    }
+
+
+    .status-atualizacao {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+
+    #ultima-atualizacao,
+    #proxima-atualizacao {
+        white-space: nowrap;
+    }
+
+
+    .progresso-atualizacao {
+        width: 100%;
+
+        margin-top: 3px;
+    }
+
 }
