@@ -1122,15 +1122,15 @@ footer {
     }
 
     .candidato-foto {
-        width: 54px;
-        height: 54px;
+        width: 53px;
+        height: 53px;
     }
 
     .candidato-nome h3 {
-        font-size: 9px;
+        font-size: 8px;
         line-height: 1.35;
     }
-
+         
     .candidato-nome span {
         font-size: 10px;
     }
