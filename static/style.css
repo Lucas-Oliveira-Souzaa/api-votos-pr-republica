@@ -243,7 +243,12 @@ body {
 
     height: 100%;
 
-    background: #2aa876;
+    background: linear-gradient(
+        90deg,
+        #00A859 0%,
+        #39D353 55%,
+        #DFFF36 100%
+    );
 
     border-radius: 10px;
 
@@ -293,7 +298,12 @@ body {
 .progress-bar {
     height: 100%;
 
-    background: #2aa876;
+    background: linear-gradient(
+    90deg,
+    #009C3B 0%,
+    #2AA876 72%,
+    #8AD84D 100%
+);
 
     border-radius: 20px;
 
@@ -804,4 +814,329 @@ footer {
         margin-top: 3px;
     }
 
+}
+
+/* ============================================================
+   REFINAMENTO MOBILE — APURAÇÃO PRESIDENCIAL
+   Preserva integralmente o layout desktop
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    /* Página: melhor aproveitamento da largura */
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    /* Cabeçalho: título e identificação mais adaptáveis */
+    .header {
+        padding: 16px 14px;
+        gap: 12px;
+        border-radius: 14px;
+    }
+
+    .flag {
+        flex-shrink: 0;
+        font-size: 32px;
+    }
+
+    .header h1 {
+        font-size: clamp(13px, 3.8vw, 17px);
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+    }
+
+    .header p {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px;
+        font-size: 9px;
+        line-height: 1.5;
+        letter-spacing: 1px;
+    }
+
+    .turno {
+        margin-right: 0;
+        padding: 4px 9px;
+        font-size: 9px;
+        letter-spacing: 0.5px;
+    }
+
+    /* Status: organização compacta */
+    .status-card {
+        padding: 12px;
+        gap: 10px;
+        border-radius: 12px;
+    }
+
+    .status-indicator {
+        flex-wrap: wrap;
+        gap: 7px;
+        font-size: 12px;
+    }
+
+    .status-atualizacao {
+        gap: 8px;
+        font-size: 11px;
+    }
+
+    #ultima-atualizacao,
+    #proxima-atualizacao {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .progresso-atualizacao {
+        height: 4px;
+        margin-top: 2px;
+    }
+
+    /* Cartões principais */
+    .apuracao-card,
+    .candidatos-section {
+        margin-top: 14px;
+        padding: 16px 14px;
+        border-radius: 14px;
+    }
+
+    /* Títulos das seções */
+    .section-title {
+        gap: 8px;
+        padding-bottom: 12px;
+        letter-spacing: 0.8px;
+    }
+
+    .section-title h2 {
+        font-size: 12px;
+        letter-spacing: 0.8px;
+        line-height: 1.4;
+    }
+
+    .section-title span {
+        flex-shrink: 0;
+        font-size: 16px;
+    }
+
+    /* Percentual nacional */
+    .apuracao-percentual {
+        margin-top: 20px;
+    }
+
+    #percentual-apuracao {
+        font-size: clamp(32px, 9vw, 40px);
+        letter-spacing: -1px;
+    }
+
+    .progress-container {
+        height: 8px;
+        margin-top: 16px;
+    }
+
+    /* Seções apuradas */
+    .secoes {
+        flex-wrap: wrap;
+        gap: 4px 6px;
+        margin-top: 14px;
+        font-size: 11px;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    .secoes strong {
+        font-size: 12px;
+    }
+
+    /* Cards dos candidatos */
+    .candidato-card {
+        padding: 15px 11px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+    }
+
+    .candidato-lider::before {
+        max-width: 100%;
+        margin-bottom: 10px;
+        padding: 5px 8px;
+        font-size: 9px;
+        letter-spacing: 0.5px;
+    }
+
+    .candidato-top {
+        gap: 9px;
+        min-width: 0;
+    }
+
+    .candidato-foto {
+        width: 64px;
+        height: 64px;
+    }
+
+    .candidato-numero {
+        width: 34px;
+        height: 34px;
+        font-size: 12px;
+    }
+
+    .candidato-nome {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .candidato-nome h3 {
+        font-size: 13px;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+    }
+
+    .candidato-nome span {
+        margin-top: 4px;
+        font-size: 10px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .candidato-percentual {
+        flex-shrink: 0;
+        min-width: 59px;
+        font-size: 12px;
+        line-height: 1.3;
+    }
+
+    .candidate-progress {
+        height: 6px;
+        margin-top: 12px;
+    }
+
+    /* Rodapé */
+    footer {
+        gap: 8px;
+        font-size: 10px;
+    }
+}
+
+/* Ajustes adicionais para celulares muito estreitos */
+@media (max-width: 380px) {
+
+    body {
+        padding: 8px;
+    }
+
+    .header {
+        padding: 13px 10px;
+        gap: 9px;
+    }
+
+    .flag {
+        font-size: 28px;
+    }
+
+    .header h1 {
+        font-size: 13px;
+    }
+
+    .header p {
+        font-size: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    .apuracao-card,
+    .candidatos-section {
+        padding: 14px 10px;
+    }
+
+    .candidato-card {
+        padding: 13px 8px;
+    }
+
+    .candidato-top {
+        gap: 7px;
+    }
+
+    .candidato-foto {
+        width: 54px;
+        height: 54px;
+    }
+
+    .candidato-nome h3 {
+        font-size: 12px;
+    }
+
+    .candidato-nome span {
+        font-size: 9px;
+    }
+
+    .candidato-percentual {
+        min-width: 54px;
+        font-size: 11px;
+    }
+
+    #percentual-apuracao {
+        font-size: 32px;
+    }
+}
+
+/* Refinamento final para telas de até 360px */
+@media (max-width: 360px) {
+
+    .header {
+        padding: 14px 10px;
+        gap: 8px;
+    }
+
+    .flag {
+        font-size: 27px;
+    }
+
+    .header h1 {
+        font-size: 13px;
+        letter-spacing: 0.2px;
+    }
+
+    .header p {
+        gap: 5px;
+        font-size: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    .status-card {
+        padding: 12px;
+    }
+
+    .apuracao-card,
+    .candidatos-section {
+        padding: 15px 11px;
+    }
+
+    .candidato-card {
+        padding: 13px 8px;
+    }
+
+    .candidato-top {
+        gap: 7px;
+    }
+
+    .candidato-foto {
+        width: 58px;
+        height: 58px;
+    }
+
+    .candidato-nome h3 {
+        font-size: 11px;
+        line-height: 1.35;
+    }
+
+    .candidato-nome span {
+        font-size: 10px;
+    }
+
+    .candidato-percentual {
+        min-width: 54px;
+        font-size: 10px;
+    }
 }
